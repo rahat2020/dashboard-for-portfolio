@@ -13,24 +13,33 @@ import ProjectsPage from './pages/ProjectsPage';
 import ExperiencesPage from './pages/ExperiencesPage';
 import UsersPage from './pages/UsersPage';
 import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import ProtectedRoute from './components/layout/ProtectedRoute';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
-          {/* Dashboard Routes with Layout */}
-          <Route path="/" element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="posts" element={<PostsPage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="experiences" element={<ExperiencesPage />} />
-            <Route path="users" element={<UsersPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-            
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Auth Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          {/* Protected Dashboard Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<DashboardLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="posts" element={<PostsPage />} />
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="experiences" element={<ExperiencesPage />} />
+              <Route path="users" element={<UsersPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+            </Route>
           </Route>
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
         {/* Notifications */}

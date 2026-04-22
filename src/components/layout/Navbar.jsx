@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { Menu, Bell, Search, User } from 'react-feather';
+import { Menu, Bell, Search, User, LogOut } from 'react-feather';
 import { toggleSidebar } from '../../features/ui/uiSlice';
+import { logout } from '../../features/auth/authSlice';
+import toast from 'react-hot-toast';
 
 const pageTitles = {
   '/': 'Dashboard',
@@ -67,9 +69,16 @@ const Navbar = () => {
             <p className="text-sm font-medium text-gray-200">Admin</p>
             <p className="text-xs text-gray-500">admin@portfolio.dev</p>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-            <User size={16} className="text-white" />
-          </div>
+          <button 
+            onClick={() => {
+              dispatch(logout());
+              toast.success('Logged out successfully');
+            }}
+            className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-red-400 transition-all cursor-pointer border border-gray-700"
+            title="Logout"
+          >
+            <LogOut size={16} />
+          </button>
         </div>
       </div>
     </header>
