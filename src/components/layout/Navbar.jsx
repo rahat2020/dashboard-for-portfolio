@@ -1,33 +1,37 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { Menu, Bell, Search, User, LogOut } from 'react-feather';
-import { toggleSidebar } from '../../features/ui/uiSlice';
-import { logout } from '../../features/auth/authSlice';
-import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Menu, Bell, Search, User, LogOut } from "react-feather";
+import { toggleSidebar } from "../../features/ui/uiSlice";
+import { logout, selectCurrentUserData } from "../../features/auth/authSlice";
+import toast from "react-hot-toast";
 
 const pageTitles = {
-  '/': 'Dashboard',
-  '/posts': 'Posts',
-  '/projects': 'Projects',
-  '/experiences': 'Experiences',
-  '/users': 'Users',
-  '/settings': 'Settings',
+  "/": "Dashboard",
+  "/posts": "Posts",
+  "/projects": "Projects",
+  "/experiences": "Experiences",
+  "/users": "Users",
+  "/settings": "Settings",
 };
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { sidebarCollapsed } = useSelector((state) => state.ui);
+  const userData = useSelector(selectCurrentUserData);
 
-  const currentTitle = Object.entries(pageTitles).find(([path]) =>
-    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path)
-  )?.[1] || 'Dashboard';
+  const currentTitle =
+    Object.entries(pageTitles).find(([path]) =>
+      path === "/"
+        ? location.pathname === "/"
+        : location.pathname.startsWith(path),
+    )?.[1] || "Dashboard";
 
   return (
     <header
       className={`sticky top-0 z-20 h-16 bg-gray-950/80 backdrop-blur-xl border-b border-gray-800 
         flex items-center justify-between px-4 sm:px-6 transition-all duration-300
-        ${sidebarCollapsed ? 'lg:ml-[72px]' : 'lg:ml-64'}`}
+        ${sidebarCollapsed ? "lg:ml-[72px]" : "lg:ml-64"}`}
     >
       <div className="flex items-center gap-4">
         {/* Mobile menu toggle */}
@@ -66,13 +70,13 @@ const Navbar = () => {
         {/* User */}
         <div className="flex items-center gap-3 pl-3 ml-1 border-l border-gray-800">
           <div className="hidden sm:block text-right">
-            <p className="text-sm font-medium text-gray-200">Admin</p>
-            <p className="text-xs text-gray-500">admin@portfolio.dev</p>
+            <p className="text-sm font-medium text-gray-200">{userData?.name || "Admin"}</p>
+            <p className="text-xs text-gray-500">{userData?.email || "admin@portfolio.dev"}</p>
           </div>
-          <button 
+          <button
             onClick={() => {
               dispatch(logout());
-              toast.success('Logged out successfully');
+              toast.success("Logged out successfully");
             }}
             className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-red-400 transition-all cursor-pointer border border-gray-700"
             title="Logout"

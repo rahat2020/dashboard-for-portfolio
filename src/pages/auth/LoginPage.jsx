@@ -75,7 +75,7 @@ const LoginPage = () => {
 
       dispatch(
         setCredentials({
-          user: result?.data?.user || result?.user,
+          user: result?.data?.admin || result?.data?.user || result?.user,
           token: result?.data?.token || result?.token,
         }),
       );
@@ -83,8 +83,9 @@ const LoginPage = () => {
       toast.success("Login successful! Welcome back.");
       navigate("/");
     } catch (err) {
-      console.error('Login error:', err);
-      const errorMessage = err?.data?.message || err?.error || "An error occurred during login";
+      console.error("Login error:", err);
+      const errorMessage =
+        err?.data?.message || err?.error || "An error occurred during login";
       toast.error(errorMessage);
     }
   };

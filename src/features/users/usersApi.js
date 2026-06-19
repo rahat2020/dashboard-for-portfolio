@@ -1,56 +1,61 @@
-import { apiSlice } from '../../services/apiSlice';
+import { apiSlice } from "../../services/apiSlice";
 
 export const usersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // get all users
     getUsers: builder.query({
       query: (params) => ({
-        url: '/users',
+        url: "/auth/admins",
         params,
       }),
       providesTags: (result) =>
         result?.data
           ? [
-              ...result.data.map(({ _id }) => ({ type: 'Users', id: _id })),
-              { type: 'Users', id: 'LIST' },
+              ...result.data.map(({ _id }) => ({ type: "Users", id: _id })),
+              { type: "Users", id: "LIST" },
             ]
-          : [{ type: 'Users', id: 'LIST' }],
+          : [{ type: "Users", id: "LIST" }],
     }),
-    getUser: builder.query({
-      query: (id) => `/users/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Users', id }],
+    // get user by id
+    getUserById: builder.query({
+      query: (id) => `/auth/admins/${id}`,
+      providesTags: (result, error, id) => [{ type: "Users", id }],
     }),
+    // create user
     createUser: builder.mutation({
       query: (data) => ({
-        url: '/users',
-        method: 'POST',
+        url: "/auth/admins",
+        method: "POST",
         body: data,
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
+    // update user
     updateUser: builder.mutation({
       query: ({ id, ...data }) => ({
-        url: `/users/${id}`,
-        method: 'PUT',
+        url: `/auth/admins/${id}`,
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: (result, error, { id }) => [
-        { type: 'Users', id },
-        { type: 'Users', id: 'LIST' },
+        { type: "Users", id },
+        { type: "Users", id: "LIST" },
       ],
     }),
+    // delete user
     deleteUser: builder.mutation({
       query: (id) => ({
-        url: `/users/${id}`,
-        method: 'DELETE',
+        url: `/auth/admins/${id}`,
+        method: "DELETE",
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
   }),
 });
 
 export const {
   useGetUsersQuery,
-  useGetUserQuery,
+  useLazyGetUserByIdQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
