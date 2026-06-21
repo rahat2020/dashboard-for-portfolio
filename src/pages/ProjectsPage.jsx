@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGetProjectsQuery, useCreateProjectMutation, useUpdateProjectMutation, useDeleteProjectMutation } from '../features/projects/projectsApi';
 import DataTable from '../components/ui/DataTable';
 import Button from '../components/ui/Button';
@@ -9,6 +10,7 @@ import { Plus, Edit2, Trash2, Eye, Star } from 'react-feather';
 import { toast } from 'react-hot-toast';
 
 const ProjectsPage = () => {
+  const navigate = useNavigate();
   const { data: projectsData, isLoading, refetch } = useGetProjectsQuery();
   const [createProject, { isLoading: isCreating }] = useCreateProjectMutation();
   const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
@@ -111,7 +113,7 @@ const ProjectsPage = () => {
   };
 
   const actions = [
-    { label: 'View', icon: Eye, onClick: (row) => window.open(row.liveUrl, '_blank') },
+    { label: 'View', icon: Eye, onClick: (row) => navigate(`/projects/${row._id}`) },
     { label: 'Edit', icon: Edit2, onClick: handleEdit },
     { label: 'Delete', icon: Trash2, variant: 'danger', onClick: handleDeleteClick },
   ];

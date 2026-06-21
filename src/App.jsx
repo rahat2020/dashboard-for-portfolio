@@ -9,7 +9,9 @@ import DashboardLayout from './components/layout/DashboardLayout';
 // Pages
 import DashboardPage from './pages/DashboardPage';
 import PostsPage from './pages/PostsPage';
+import PostDetailPage from './pages/PostDetailPage';
 import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 import ExperiencesPage from './pages/ExperiencesPage';
 import UsersPage from './pages/UsersPage';
 import SettingsPage from './pages/SettingsPage';
@@ -31,7 +33,9 @@ function App() {
             <Route path="/" element={<DashboardLayout />}>
               <Route index element={<DashboardPage />} />
               <Route path="posts" element={<PostsPage />} />
+              <Route path="posts/:id" element={<PostDetailPage />} />
               <Route path="projects" element={<ProjectsPage />} />
+              <Route path="projects/:id" element={<ProjectDetailPage />} />
               <Route path="experiences" element={<ExperiencesPage />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="settings" element={<SettingsPage />} />

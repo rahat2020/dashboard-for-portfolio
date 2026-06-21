@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGetPostsQuery, useCreatePostMutation, useUpdatePostMutation, useDeletePostMutation } from '../features/posts/postsApi';
 import DataTable from '../components/ui/DataTable';
 import Button from '../components/ui/Button';
@@ -9,6 +10,7 @@ import { Plus, Edit2, Trash2, Eye } from 'react-feather';
 import { toast } from 'react-hot-toast';
 
 const PostsPage = () => {
+  const navigate = useNavigate();
   const { data: postsData, isLoading, refetch } = useGetPostsQuery();
   const [createPost, { isLoading: isCreating }] = useCreatePostMutation();
   const [updatePost, { isLoading: isUpdating }] = useUpdatePostMutation();
@@ -20,8 +22,25 @@ const PostsPage = () => {
   const [postToDelete, setPostToDelete] = useState(null);
 
   const columns = [
-    { header: 'Title', accessor: 'title', width: '40%' },
-    { 
+    {
+      header: 'Thumbnail',
+      accessor: 'thumbnail',
+      sortable: false,
+      width: '80px',
+      render: (row) => (
+        row.thumbnail ? (
+          <img
+            src={row.thumbnail}
+            alt={row.title}
+            className="w-12 h-12 rounded-lg object-cover border border-gray-700"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700" />
+        )
+      ),
+    },
+    { header: 'Title', accessor: 'title', width: '32%' },
+    {
       header: 'Category', 
       accessor: 'category',
       render: (row) => (
@@ -92,7 +111,7 @@ const PostsPage = () => {
   };
 
   const actions = [
-    { label: 'View', icon: Eye, onClick: (row) => window.open(`/blog/${row.slug}`, '_blank') },
+    { label: 'View', icon: Eye, onClick: (row) => navigate(`/posts/${row._id}`) },
     { label: 'Edit', icon: Edit2, onClick: handleEdit },
     { label: 'Delete', icon: Trash2, variant: 'danger', onClick: handleDeleteClick },
   ];

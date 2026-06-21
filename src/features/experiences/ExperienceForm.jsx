@@ -53,8 +53,12 @@ const ExperienceForm = ({ initialData, onSubmit, loading }) => {
     }
   }, [isCurrentlyWorking, setValue]);
 
+  const onValidSubmit = (data) => {
+    onSubmit({ ...data, endDate: data.isCurrentlyWorking ? null : data.endDate });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormInput
           label="Company"

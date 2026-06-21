@@ -2,9 +2,11 @@ import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import useNotificationSocket from '../../hooks/useNotificationSocket';
 
 const DashboardLayout = () => {
   const { sidebarCollapsed } = useSelector((state) => state.ui);
+  useNotificationSocket();
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200">

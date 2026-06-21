@@ -5,7 +5,7 @@ import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import UserForm from '../features/users/UserForm';
-import { UserPlus, Edit2, Trash2 } from 'react-feather';
+import { UserPlus, Edit2, Trash2, Copy } from 'react-feather';
 import { toast } from 'react-hot-toast';
 
 const UsersPage = () => {
@@ -19,9 +19,36 @@ const UsersPage = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
+  const handleCopyEmail = async (email) => {
+    try {
+      await navigator.clipboard.writeText(email);
+      toast.success('Email copied to clipboard');
+    } catch {
+      toast.error('Failed to copy email');
+    }
+  };
+
   const columns = [
     { header: 'Name', accessor: 'name' },
-    { header: 'Email', accessor: 'email' },
+    {
+      header: 'Email',
+      accessor: 'email',
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          <span>{row.email}</span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCopyEmail(row.email);
+            }}
+            title="Copy email"
+            className="p-1 rounded-md text-gray-500 hover:text-white hover:bg-gray-700 transition-colors cursor-pointer"
+          >
+            <Copy size={13} />
+          </button>
+        </div>
+      ),
+    },
     {
       header: 'Created At',
       accessor: 'createdAt',

@@ -20,6 +20,7 @@ const DataTable = ({
   const [sortDir, setSortDir] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [openActionRow, setOpenActionRow] = useState(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
 
   // Filter
   const filtered = data.filter((row) => {
@@ -130,7 +131,14 @@ const DataTable = ({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenActionRow(openActionRow === (row._id || idx) ? null : (row._id || idx));
+                          const rowKey = row._id || idx;
+                          if (openActionRow === rowKey) {
+                            setOpenActionRow(null);
+                          } else {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setMenuPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+                            setOpenActionRow(rowKey);
+                          }
                         }}
                         className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors cursor-pointer"
                       >
@@ -139,7 +147,10 @@ const DataTable = ({
                       {openActionRow === (row._id || idx) && (
                         <>
                           <div className="fixed inset-0 z-10" onClick={() => setOpenActionRow(null)} />
-                          <div className="absolute right-4 top-full mt-1 z-20 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-1 min-w-[140px]">
+                          <div
+                            className="fixed z-20 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-1 min-w-[140px]"
+                            style={{ top: menuPos.top, right: menuPos.right }}
+                          >
                             {actions.map((action) => (
                               <button
                                 key={action.label}
