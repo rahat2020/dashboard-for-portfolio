@@ -13,12 +13,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { user, token } = action.payload;
+      const { user, token, rememberMe } = action.payload;
       state.user = user;
       state.token = token;
       state.isAuthenticated = true;
       if (token) {
-        Cookies.set("token", token, { expires: 30 }); // Set cookie for 7 days
+        Cookies.set("token", token, { expires: rememberMe ? 365 : undefined }); 
       }
     },
     setUserData: (state, action) => {

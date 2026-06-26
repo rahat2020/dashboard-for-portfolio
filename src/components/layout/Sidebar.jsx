@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  UserCheck,
 } from "react-feather";
 import {
   toggleSidebarCollapse,
@@ -21,6 +22,7 @@ import { useLazyGetUserByIdQuery } from "../../features/users/usersApi";
 
 const menuItems = [
   { path: "/", label: "Dashboard", icon: Home },
+  { path: "/about", label: "About Me", icon: UserCheck },
   { path: "/posts", label: "Posts", icon: FileText },
   { path: "/projects", label: "Projects", icon: Folder },
   { path: "/experiences", label: "Experiences", icon: Briefcase },

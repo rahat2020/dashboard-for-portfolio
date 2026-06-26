@@ -8,6 +8,7 @@ import DashboardLayout from './components/layout/DashboardLayout';
 
 // Pages
 import DashboardPage from './pages/DashboardPage';
+import AboutPage from './pages/AboutPage';
 import PostsPage from './pages/PostsPage';
 import PostDetailPage from './pages/PostDetailPage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -32,6 +33,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<DashboardLayout />}>
               <Route index element={<DashboardPage />} />
+              <Route path="about" element={<AboutPage />} />
               <Route path="posts" element={<PostsPage />} />
               <Route path="posts/:id" element={<PostDetailPage />} />
               <Route path="projects" element={<ProjectsPage />} />
