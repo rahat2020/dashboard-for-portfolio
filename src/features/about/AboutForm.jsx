@@ -7,6 +7,7 @@ import TextArea from '../../components/ui/TextArea';
 import TagInput from '../../components/ui/TagInput';
 import ToggleSwitch from '../../components/ui/ToggleSwitch';
 import Button from '../../components/ui/Button';
+import ImageUpload from '../../components/ui/ImageUpload';
 import {
   User,
   Mail,
@@ -176,14 +177,18 @@ const AboutForm = ({ initialData, onSubmit, loading, isEdit }) => {
             required
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          <FormInput
-            label="Avatar URL"
+        <div className="mt-6 space-y-4">
+          <Controller
             name="avatar"
-            register={register}
-            error={errors.avatar}
-            placeholder="https://..."
-            icon={<Link size={15} />}
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <ImageUpload
+                label="Avatar Profile Image"
+                value={value}
+                onChange={onChange}
+                error={errors.avatar}
+              />
+            )}
           />
           <FormInput
             label="Resume URL"
